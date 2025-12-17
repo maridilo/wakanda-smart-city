@@ -1,0 +1,62 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+    globalcors:
+      cors-configurations:
+        '[/**]':
+          allowedOrigins: "*"   # Permite conexiones desde cualquier lugar (HTML local)
+          allowedMethods:
+            - GET
+            - POST
+          allowedHeaders: "*"
+      routes:
+        - id: traffic-route
+          uri: lb://traffic-service
+          predicates:
+            - Path=/api/v1/traffic/**
+
+        - id: emergency-route
+          uri: lb://emergency-service
+          predicates:
+            - Path=/api/v1/emergency/**
+
+        - id: waste-route
+          uri: lb://waste-service
+          predicates:
+            - Path=/api/v1/waste/**
+
+        - id: security-route
+          uri: lb://security-service
+          predicates:
+            - Path=/api/v1/security/**
+
+        - id: health-route
+          uri: lb://health-service
+          predicates:
+            - Path=/api/v1/health/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+      management:
+        endpoints:
+          web:
+            exposure:
+              include: "*"
+        endpoint:
+          health:
+            show-details: always
+        tracing:
+          sampling:
+            probability: 1.0

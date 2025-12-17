@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wakanda Smart City Dashboard</title>
+    <style>
+        :root {
+            --primary: #5e35b1;
+            --secondary: #7e57c2;
+            --bg: #121212;
+            --card-bg: #1e1e1e;
+            --text: #ffffff;
+            --success: #00e676;
+            --danger: #ff1744;
+            --warning: #ffea00;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 20px;
+        }
+
+        h1 { margin: 0; font-size: 2.5em; text-transform: uppercase; letter-spacing: 2px; }
+        h3 { color: #aaa; font-weight: 300; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            border-left: 5px solid var(--primary);
+            transition: transform 0.2s;
+        }
+
+        .card:hover { transform: translateY(-5px); }
+        .card h2 { margin-top: 0; color: var(--secondary); }
+
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: background 0.3s;
+        }
+
+        button:hover { background-color: var(--secondary); }
+
+        .result-box {
+            margin-top: 15px;
+            background: #000;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: 'Consolas', monospace;
+            min-height: 40px;
+            border: 1px solid #333;
+            white-space: pre-wrap; /* Mantiene saltos de línea */
+            color: var(--success);
+        }
+
+        .loading { color: var(--warning); }
+        .error { color: var(--danger); }
+
+        /* Colores específicos por servicio */
+        .card.traffic { border-color: #29b6f6; }
+        .card.emergency { border-color: #ff1744; }
+        .card.waste { border-color: #66bb6a; }
+        .card.security { border-color: #ff9100; }
+        .card.health { border-color: #ec407a; }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Wakanda Smart City</h1>
+    <h3>Panel de Control Centralizado</h3>
+</header>
+
+<div class="grid">
+
+    <div class="card traffic">
+        <h2>🚦 Gestión de Tráfico</h2>
+        <p>Control de semáforos y sensores viales.</p>
+        <button onclick="llamarServicio('/api/v1/traffic/semaforos', 'res-traffic')">Consultar Semáforos</button>
+        <div id="res-traffic" class="result-box">Esperando datos...</div>
+    </div>
+
+    <div class="card emergency">
+        <h2>🔥 Emergencias</h2>
+        <p>Coordinación de bomberos y tráfico (Feign).</p>
+        <button onclick="llamarServicio('/api/v1/emergency/test', 'res-emergency')">Reportar Incendio</button>
+        <div id="res-emergency" class="result-box">Esperando datos...</div>
+    </div>
+
+    <div class="card waste">
+        <h2>♻️ Residuos</h2>
+        <p>Estado de contenedores inteligentes.</p>
+        <button onclick="llamarServicio('/api/v1/waste/contenedores', 'res-waste')">Verificar Contenedores</button>
+        <div id="res-waste" class="result-box">Esperando datos...</div>
+    </div>
+
+    <div class="card security">
+        <h2>🛡️ Seguridad</h2>
+        <p>Cámaras de vigilancia y drones.</p>
+        <button onclick="llamarServicio('/api/v1/security/cameras', 'res-security')">Escanear Zona</button>
+        <div id="res-security" class="result-box">Esperando datos...</div>
+    </div>
+
+    <div class="card health">
+        <h2>🏥 Salud</h2>
+        <p>Estado del Hospital Central.</p>
+        <button onclick="llamarServicio('/api/v1/health/check', 'res-health')">Estado Hospital</button>
+        <div id="res-health" class="result-box">Esperando datos...</div>
+    </div>
+
+</div>
+
+<script>
+    // La dirección de tu Gateway
+    const GATEWAY_URL = 'http://localhost:8080';
+
+    async function llamarServicio(endpoint, elementId) {
+        const resultBox = document.getElementById(elementId);
+        resultBox.innerHTML = '<span class="loading">Conectando con WakandaNet...</span>';
+        resultBox.classList.remove('error');
+
+        try {
+            // Hacemos la petición al Gateway
+            const response = await fetch(GATEWAY_URL + endpoint);
+
+            if (!response.ok) {
+                throw new Error(`Error HTTP: ${response.status}`);
+            }
+
+            const data = await response.text();
+
+            // Efecto de escritura tipo "terminal"
+            resultBox.innerHTML = data;
+
+        } catch (error) {
+            console.error(error);
+            resultBox.innerHTML = `<span class="error">❌ Error de conexión: ${error.message}</span>`;
+            resultBox.classList.add('error');
+        }
+    }
+</script>
+</body>
+</html>
