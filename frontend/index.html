@@ -101,14 +101,14 @@
 <div class="grid">
 
     <div class="card traffic">
-        <h2>🚦 Gestión de Tráfico</h2>
+        <h2>Gestión de Tráfico</h2>
         <p>Control de semáforos y sensores viales.</p>
         <button onclick="llamarServicio('/api/v1/traffic/semaforos', 'res-traffic')">Consultar Semáforos</button>
         <div id="res-traffic" class="result-box">Esperando datos...</div>
     </div>
 
     <div class="card emergency">
-        <h2>🔥 Emergencias</h2>
+        <h2>Emergencias</h2>
         <p>Coordinación de bomberos y tráfico (Feign).</p>
         <button onclick="llamarServicio('/api/v1/emergency/test', 'res-emergency')">Reportar Incendio</button>
         <div id="res-emergency" class="result-box">Esperando datos...</div>
@@ -122,14 +122,14 @@
     </div>
 
     <div class="card security">
-        <h2>🛡️ Seguridad</h2>
+        <h2>Seguridad</h2>
         <p>Cámaras de vigilancia y drones.</p>
         <button onclick="llamarServicio('/api/v1/security/cameras', 'res-security')">Escanear Zona</button>
         <div id="res-security" class="result-box">Esperando datos...</div>
     </div>
 
     <div class="card health">
-        <h2>🏥 Salud</h2>
+        <h2>Salud</h2>
         <p>Estado del Hospital Central.</p>
         <button onclick="llamarServicio('/api/v1/health/check', 'res-health')">Estado Hospital</button>
         <div id="res-health" class="result-box">Esperando datos...</div>
