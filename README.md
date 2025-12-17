@@ -1,5 +1,7 @@
 # Wakanda Smart City - Sistema de Gestión de Servicios
 
+https://github.com/maridilo/wakanda-smart-city.git
+
 ###  Miembros del Grupo
 * **María Díaz - Heredero López**
 * **Cintia Santillan Garcia**
