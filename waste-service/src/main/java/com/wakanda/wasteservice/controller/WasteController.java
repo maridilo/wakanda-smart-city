@@ -11,7 +11,6 @@ public class WasteController {
 
     @GetMapping("/contenedores")
     public String verificarContenedores() {
-        // Simulamos niveles de llenado aleatorios
         int nivelLlenado = new Random().nextInt(100);
         String estado = (nivelLlenado > 80) ? "🔴 LLENO (Enviar Camión)" : "🟢 CON ESPACIO";
 
