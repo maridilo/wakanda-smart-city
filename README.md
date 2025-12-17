@@ -3,7 +3,7 @@
 ###  Miembros del Grupo
 * **María Díaz - Heredero López**
 * **Cintia Santillan Garcia**
-* **Suren Hashemi Allam**
+* **Suren Hashemi Alam**
 
 ---
 
